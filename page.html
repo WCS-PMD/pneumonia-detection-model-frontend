@@ -245,8 +245,8 @@ body, html {
 
 <!-- Work Section -->
 <div class="w3-container" style="padding:128px 16px" id="work">
-  <h3 class="w3-center">OUR WORK</h3>
-  <p class="w3-center w3-large">The model in which you can test it!</p>
+  <h1 class="w3-center">What is Pnuemonia??</h1>
+  <p class="w3-center w3-large">Get to Know: Causes, Symptoms, and the Differences!</p>
   <!--
   <div class="w3-row-padding" style="margin-top:64px">
     <div class="w3-col l3 m6">
@@ -280,6 +280,72 @@ body, html {
 </div>
 
 -->
+<!-- Slideshow container -->
+
+
+  <!-- Full-width images with number and caption text -->
+  <div class="slideshow-container">
+    <!-- Full-width images with number and caption text -->
+    <div class="mySlides fade">
+      <div class="slide-content">
+        <div class="slide-text">
+
+          <h2 class="bigTitle">Normal Lungs</h2>
+          <div class="image-description-container">
+            <img src="Images/normal.jpg" class="slide-image">
+            <p class="description">This image shows a set of noraml lungs. When looking at the other 
+              images its clear to see the differences between a pair of healthy lungs and ones plaqued with pneumonia.
+              Some things you can do to keep your lungs in good condition are to:<br><br> Not smoke, cigarettes or vapes
+              (also good to avoid second hand smoke), exercise regulary, a diet that has lots of fruits and veggies,
+              drinking lots of water, and by practicing deep breathing!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+
+    <div class="mySlides fade">
+      <div class="slide-content">
+        <div class="slide-text">
+          
+          <h2 class="bigTitle">Bacterial Pneumonia</h2>
+          <div class="image-description-container">
+            <img src="Images/bacterial.jpg" class="slide-image">
+              <p class="description">This image shows lungs affected by bacterial pneumonia, characterized by 
+              infiltration and inflammation. <br><br>Bacterial Pneumonia can invovle one section of your lung, 
+              or attack your entire lung
+              Some symptoms include: coughing with thick discoloured mucus, chest pain, fever, headaches
+             severe fatigue and muscle pain. If you have trouble breathing, find blood in your mucus, a rapid heartbeat
+             or a fever at 102.5°F or higher(39.1°C) talk to a doctor right away!
+          </p>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mySlides fade">
+      <div class="slide-content">
+        <div class="slide-text">
+          
+            <h2 class="bigTitle">Viral Pneumonia</h2>
+          <div class="image-description-container">
+            <img src="Images/viral.webp" class="slide-image">
+            <p class="description">Here, you can see lungs affected by viral pneumonia, typically presenting with diffuse bilateral infiltrates.
+              Viral pneumonia, develops from viral infection in the lungs. Can be caused by a vast  amount of viruses, including: influenza, varicella-zoster virus
+              , and coronaviruses. <br><br> Symptoms of viral pneumonia include: fevers, dry coughs that develops  into one with mucus, shaking, shortness of breath 
+              fatigue, and weakness to name a few.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br>
 
 
 <!-- Modal for full size images on click-->
@@ -290,8 +356,28 @@ body, html {
     <p id="caption" class="w3-opacity w3-large"></p>
   </div>
 </div>
+<!-- Skills Section -->
 
 <!-- Skills Section -->
+
+<div class="w3-container w3-light-grey w3-padding-64" id="model">
+  <div class="w3-row-padding">
+      <div class="container">
+          <div class="integration-container">
+          <h1 class="title">Pneumonia Detector</h1>
+          <div class="upload-form">
+              <!-- <form action="http://127.0.0.1:5000/predict" method="post" enctype="multipart/form-data"> -->
+              <!-- <form action="https://wcs-feernen.pythonanywhere.com/predict" method="get" enctype="multipart/form-data"> -->
+              <form id="uploadForm" enctype="multipart/form-data"> 
+              <input type="file" name="image" id="imageInput" accept="image/jpeg">
+              <button type="submit" class="submit-button">Upload</button>
+              </form>
+          </div>
+          <div id="result" class="result"></div>
+          </div>
+      </div>
+      </div>
+</div>
 
 <!--
 <div class="w3-container w3-light-grey w3-padding-64">
@@ -424,6 +510,39 @@ body, html {
 </footer>
  
 <script>
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // Get the selected file from the file input element
+    var fileInput = document.getElementById('imageInput');
+    var file = fileInput.files[0];
+
+    // Create a FormData object and append the file to it
+    var formData = new FormData();
+    formData.append('file', file); // Ensure the key matches what the Flask server expects ('file')
+
+    // Send a POST request to the Flask endpoint
+    fetch('http://127.0.0.1:5000/predict', { // Localhost URL
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if there's an error and render the appropriate message
+        var resultMessage = data.error ? `<p>Error: ${data.error}</p>` : `<p>Prediction: ${data.prediction}</p>`;
+        
+        // Render the result into the HTML
+        document.getElementById('result').innerHTML = resultMessage;
+    })
+    .catch(error => {
+        // Catch any errors and display them
+        document.getElementById('result').innerHTML = `
+            <p>Error: ${error}</p>
+        `;
+    });
+});
+
+
 // Modal Image Gallery
 function onClick(element) {
   document.getElementById("img01").src = element.src;
