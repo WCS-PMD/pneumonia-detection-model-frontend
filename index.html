@@ -20,7 +20,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 body, html {
   height: 100%;
   line-height: 1.8;
-}s
+}
 
 /* Full height image header */
 .bgimg-1 {
@@ -504,7 +504,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     formData.append('file', file); // Ensure the key matches what the Flask server expects ('file')
 
     // Send a POST request to the Flask endpoint
-    fetch('http://127.0.0.1:5000/predict', { // Localhost URL
+    fetch('http://159.89.125.1/predict', { // Localhost URL
         method: 'POST',
         body: formData
     })
